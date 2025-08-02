@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ra.project_jvw_service.model.dto.request.LoginRequest;
@@ -95,6 +96,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserResponse getCurrentUserProfile(Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy người dùng"));
+
+        return toDTO(user);
+    }
+
+    @Override
     public List<UserResponse> getAllUsers(Optional<Role> role) {
         if (role.isPresent() && role.get() == Role.ADMIN) {
             throw new IllegalArgumentException("Không được phép lấy danh sách tài khoản ADMIN");
@@ -149,6 +159,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng"));
         user.setFullName(dto.getFullName());
         user.setEmail(dto.getEmail());
+        user.setPhoneNumber(dto.getPhoneNumber());
         return toDTO(userRepository.save(user));
     }
 

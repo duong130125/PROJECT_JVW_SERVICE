@@ -51,34 +51,61 @@ public class SpringSecurity {
     public SecurityFilterChain configure(HttpSecurity http, JWTAuthFilter jwtAuthFilter) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints
-                        .requestMatchers("/api/auth/**").permitAll()
+                        // Điểm cuối công cộng
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
 
-                        // [2] /api/auth/me — ADMIN, MENTOR, STUDENT
+                        // Điểm cuối xác thực
                         .requestMatchers(HttpMethod.GET, "/api/auth/me").hasAnyRole("ADMIN", "MENTOR", "STUDENT")
 
-                        // [3–9] /api/users/** — ADMIN only
+                        // Điểm cuối của người dùng - Chỉ dành cho QUẢN TRỊ VIÊN
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
 
-                        // [10] /api/students — GET — ADMIN, MENTOR
+                        // Điểm cuối của sinh viên
                         .requestMatchers(HttpMethod.GET, "/api/students").hasAnyRole("ADMIN", "MENTOR")
-
-                        // [11] /api/students/{id} — GET — ADMIN, MENTOR, STUDENT
                         .requestMatchers(HttpMethod.GET, "/api/students/**").hasAnyRole("ADMIN", "MENTOR", "STUDENT")
-
-                        // [12] /api/students — POST — ADMIN
                         .requestMatchers(HttpMethod.POST, "/api/students").hasRole("ADMIN")
-
-                        // [13] /api/students/{id} — PUT — ADMIN, STUDENT
                         .requestMatchers(HttpMethod.PUT, "/api/students/**").hasAnyRole("ADMIN", "STUDENT")
 
-                        // [14] /api/mentors — GET — ADMIN, STUDENT
+                        // Điểm cuối của người cố vấn
                         .requestMatchers(HttpMethod.GET, "/api/mentors").hasAnyRole("ADMIN", "STUDENT")
-
-                        // [15] /api/mentors/{id} — GET — ADMIN, MENTOR, STUDENT
                         .requestMatchers(HttpMethod.GET, "/api/mentors/**").hasAnyRole("ADMIN", "MENTOR", "STUDENT")
+                        .requestMatchers(HttpMethod.POST, "/api/mentors").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/mentors/**").hasAnyRole("ADMIN", "MENTOR")
 
-                        // Other requests must be authenticated
+                        // Các điểm cuối của giai đoạn cố vấn
+                        .requestMatchers(HttpMethod.GET, "/api/mentors_phases", "/api/mentorship_phases/**").hasAnyRole("ADMIN", "MENTOR", "STUDENT")
+                        .requestMatchers(HttpMethod.POST, "/api/mentorship_phases").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/mentorship_phases/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/mentorship_phases").hasRole("ADMIN")
+
+                        // Tiêu chí đánh giá điểm cuối
+                        .requestMatchers(HttpMethod.GET, "/api/evaluation_criteria", "/api/evaluation_criteria/**").hasAnyRole("ADMIN", "MENTOR", "STUDENT")
+                        .requestMatchers(HttpMethod.POST, "/api/evaluation_criteria").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/evaluation_criteria/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/evaluation_criteria/**").hasRole("ADMIN")
+
+                        // Điểm cuối của vòng đánh giá
+                        .requestMatchers(HttpMethod.GET, "/api/assessment_rounds", "/api/assessment_rounds/**").hasAnyRole("ADMIN", "MENTOR", "STUDENT")
+                        .requestMatchers(HttpMethod.POST, "/api/assessment_rounds").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/assessment_rounds/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/assessment_rounds").hasRole("ADMIN")
+
+                        // Điểm cuối tiêu chí vòng
+                        .requestMatchers(HttpMethod.GET, "/api/round_criteria", "/api/round_criteria/**").hasAnyRole("ADMIN", "MENTOR", "STUDENT")
+                        .requestMatchers(HttpMethod.POST, "/api/round_criteria").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/round_criteria/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/round_criteria/**").hasRole("ADMIN")
+
+                        // Điểm cuối của nhiệm vụ cố vấn
+                        .requestMatchers(HttpMethod.GET, "/api/mentorship_assignments", "/api/mentorship_assignments/**").hasAnyRole("ADMIN", "MENTOR", "STUDENT")
+                        .requestMatchers(HttpMethod.POST, "/api/mentorship_assignments/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/mentorship_assignments/**").hasRole("ADMIN")
+
+                        // Điểm cuối của kết quả đánh giá
+                        .requestMatchers(HttpMethod.GET, "/api/assessment_results").hasAnyRole("ADMIN", "MENTOR", "STUDENT")
+                        .requestMatchers(HttpMethod.POST, "/api/assessment_results").hasRole("MENTOR")
+                        .requestMatchers(HttpMethod.PUT, "/api/assessment_results/**").hasRole("MENTOR")
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint()))

@@ -1,5 +1,6 @@
 package ra.project_jvw_service.service;
 
+import org.springframework.security.core.Authentication;
 import ra.project_jvw_service.model.dto.request.LoginRequest;
 import ra.project_jvw_service.model.dto.request.RegisterRequest;
 import ra.project_jvw_service.model.dto.response.JWTResponse;
@@ -16,6 +17,8 @@ public interface UserService {
     JWTResponse login(LoginRequest loginRequest);
 
     void logout(String token);
+
+    UserResponse getCurrentUserProfile(Authentication authentication);
 
     List<UserResponse> getAllUsers(Optional<Role> role);
     UserResponse getUserById(Long id);

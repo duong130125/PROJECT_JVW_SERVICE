@@ -51,20 +51,26 @@ public class UserController {
 
     //Cập nhật trạng thái hoạt động của người dùng (kích hoạt/tạm khóa)
     @PutMapping("/{id}/status")
-    public ResponseEntity<APIResponse<Void>> updateUserStatus(@PathVariable Long id, @RequestParam Boolean isActive) {
+    public ResponseEntity<APIResponse<String>> updateUserStatus(@PathVariable Long id, @RequestParam Boolean isActive) {
         userService.updateUserStatus(id, isActive);
-        return ResponseEntity.ok().build();
+        String message = isActive ? "Kích hoạt người dùng thành công" : "Tạm khóa người dùng thành công";
+        APIResponse<String> response = new APIResponse<>(true, message, null, HttpStatus.OK, null, LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
 
+    //Cập nhật vai trò của người dùng (chỉ ADMIN mới có quyền cập nhật)
     @PutMapping("/{id}/role")
-    public ResponseEntity<Void> updateUserRole(@PathVariable Long id, @RequestParam Role role) {
+    public ResponseEntity<APIResponse<String>> updateUserRole(@PathVariable Long id, @RequestParam Role role) {
         userService.updateUserRole(id, role);
-        return ResponseEntity.ok().build();
+        APIResponse<String> response = new APIResponse<>(true, "Cập nhật vai trò người dùng thành công", null, HttpStatus.OK, null, LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
 
+    //Xóa người dùng khỏi hệ thống
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<APIResponse<String>> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        APIResponse<String> response = new APIResponse<>(true, "Xóa người dùng thành công", null, HttpStatus.OK, null, LocalDateTime.now());
+        return ResponseEntity.ok(response);
     }
 }
