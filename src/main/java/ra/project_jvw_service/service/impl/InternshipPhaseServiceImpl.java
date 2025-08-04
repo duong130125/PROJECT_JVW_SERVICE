@@ -33,6 +33,9 @@ public class InternshipPhaseServiceImpl implements InternshipPhaseService {
     @Override
     public InternshipPhaseResponse createPhase(InternshipPhaseRequest dto) {
         validateDateRange(dto);
+        if (internshipPhaseRepository.existsByPhaseNameIgnoreCase(dto.getPhaseName())) {
+            throw new IllegalArgumentException("Tên giai đoạn thực tập đã tồn tại");
+        }
 
         InternshipPhase internshipPhase = InternshipPhase.builder()
                 .phaseName(dto.getPhaseName())
@@ -47,6 +50,10 @@ public class InternshipPhaseServiceImpl implements InternshipPhaseService {
     @Override
     public InternshipPhaseResponse updatePhase(Long id, InternshipPhaseRequest dto) {
         validateDateRange(dto);
+        if (internshipPhaseRepository.existsByPhaseNameIgnoreCase(dto.getPhaseName())) {
+            throw new IllegalArgumentException("Tên giai đoạn thực tập đã tồn tại");
+        }
+
         InternshipPhase internshipPhase = internshipPhaseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy giai đoạn thực tập với ID: " + id));
 

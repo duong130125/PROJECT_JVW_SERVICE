@@ -40,14 +40,14 @@ public class InternshipPhaseController {
     public ResponseEntity<APIResponse<InternshipPhaseResponse>> create(@RequestBody @Valid InternshipPhaseRequest dto) {
         return new ResponseEntity<>(
             new APIResponse<>(
-                true, "Tạo một giai đoạn thực tập mới", internshipPhaseService.createPhase(dto), HttpStatus.CREATED, null, LocalDateTime.now()), HttpStatus.CREATED);
+                true, "Tạo một giai đoạn thực tập mới thành công", internshipPhaseService.createPhase(dto), HttpStatus.CREATED, null, LocalDateTime.now()), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<APIResponse<InternshipPhaseResponse>> update(@PathVariable Long id, @RequestBody @Valid InternshipPhaseRequest dto) {
         return new ResponseEntity<>(
             new APIResponse<>(
-                true, "Cập nhật thông tin một giai đoạn thực tập", internshipPhaseService.updatePhase(id, dto), HttpStatus.OK, null, LocalDateTime.now()), HttpStatus.OK);
+                true, "Cập nhật thông tin một giai đoạn thực tập thành công", internshipPhaseService.updatePhase(id, dto), HttpStatus.OK, null, LocalDateTime.now()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
