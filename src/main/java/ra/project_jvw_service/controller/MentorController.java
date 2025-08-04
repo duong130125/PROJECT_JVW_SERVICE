@@ -1,13 +1,12 @@
 package ra.project_jvw_service.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ra.project_jvw_service.model.dto.request.MentorRequest;
 import ra.project_jvw_service.model.dto.response.APIResponse;
 import ra.project_jvw_service.model.dto.response.MentorResponse;
 import ra.project_jvw_service.service.MentorService;
@@ -35,4 +34,23 @@ public class MentorController {
         return new ResponseEntity<>(
             new APIResponse<>(true, "Lấy thông tin chi tiết một giáo viên hướng dẫn theo ID", mentorService.getMentorById(id, authentication), HttpStatus.OK, null, LocalDateTime.now()), HttpStatus.OK);
     }
+
+    //Tạo thông tin giáo viên hướng dẫn mới (liên kết với User có role MENTOR)
+    @PostMapping
+    public ResponseEntity<APIResponse<MentorResponse>> createMentor(@Valid @RequestBody MentorRequest request) {
+        MentorResponse mentor = mentorService.createMentor(request);
+        return new ResponseEntity<>(
+            new APIResponse<>(true, "Tạo mentor thành công", mentor, HttpStatus.CREATED, null, LocalDateTime.now()), HttpStatus.CREATED);
+    }
+
+    //Cập nhật thông tin chi tiết giáo viên hướng dẫn (MENTOR chỉ cập nhật của mình)
+    @PutMapping("/{id}")
+    public ResponseEntity<APIResponse<MentorResponse>> updateMentor(@PathVariable Long id,
+                                                                    @RequestBody @Valid MentorRequest dto,
+                                                                    Authentication authentication) {
+        MentorResponse mentor = mentorService.updateMentor(id, dto, authentication);
+        return new ResponseEntity<>(
+            new APIResponse<>(true, "Cập nhật mentor thành công", mentor, HttpStatus.OK, null, LocalDateTime.now()), HttpStatus.OK);
+    }
+
 }
