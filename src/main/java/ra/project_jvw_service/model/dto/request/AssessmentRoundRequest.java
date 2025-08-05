@@ -9,7 +9,9 @@ import java.time.LocalDate;
 
 @Data
 public class AssessmentRoundRequest {
-    private Long phaseId;
+
+    @NotNull
+    private Integer phaseId;
 
     @NotBlank(message = "Tên đợt đánh giá không được để trống")
     private String roundName;

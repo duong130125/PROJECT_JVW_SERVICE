@@ -9,6 +9,9 @@ import java.math.BigDecimal;
 @Data
 public class RoundCriterionRequest {
     @NotNull
+    private Integer roundId;
+
+    @NotNull
     private Integer criterionId;
 
     @NotNull(message = "Trọng số của tiêu chí trong đợt đánh giá này không được để trống")
