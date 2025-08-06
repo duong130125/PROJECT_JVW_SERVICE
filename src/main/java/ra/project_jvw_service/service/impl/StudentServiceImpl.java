@@ -58,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
             throw new IllegalArgumentException("User không có role STUDENT");
         }
 
-        if (studentRepository.existsByUserId(dto.getUserId())) {
+        if (studentRepository.existsByUser_UserId(dto.getUserId())) {
             throw new IllegalArgumentException("User đã có thông tin sinh viên");
         }
         if (studentRepository.existsByStudentCode(dto.getStudentCode())) {

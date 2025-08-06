@@ -36,12 +36,12 @@ public class InternshipAssignmentServiceImpl implements InternshipAssignmentServ
                     : repository.findAll();
         } else if (currentUser.getRole() == Role.MENTOR) {
             list = (phaseId != null)
-                    ? repository.findAllByMentor_UserIdAndPhase_PhaseId(Long.valueOf(currentUser.getUserId()), phaseId)
-                    : repository.findAllByMentor_UserId(Long.valueOf(currentUser.getUserId()));
+                    ? repository.findAllByMentor_User_UserIdAndPhase_PhaseId(Long.valueOf(currentUser.getUserId()), phaseId)
+                    : repository.findAllByMentor_User_UserId(Long.valueOf(currentUser.getUserId()));
         } else if (currentUser.getRole() == Role.STUDENT) {
             list = (phaseId != null)
-                    ? repository.findAllByStudent_UserIdAndPhase_PhaseId(Long.valueOf(currentUser.getUserId()), phaseId)
-                    : repository.findAllByStudent_UserId(Long.valueOf(currentUser.getUserId()));
+                    ? repository.findAllByStudent_User_UserIdAndPhase_PhaseId(Long.valueOf(currentUser.getUserId()), phaseId)
+                    : repository.findAllByStudent_User_UserId(Long.valueOf(currentUser.getUserId()));
         } else {
             throw new RuntimeException("Không có quyền truy cập");
         }
@@ -57,10 +57,10 @@ public class InternshipAssignmentServiceImpl implements InternshipAssignmentServ
             assignment = repository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy phân công thực tập với ID: " + id));
         } else if (currentUser.getRole() == Role.MENTOR) {
-            assignment = repository.findByIdAndMentor_UserId(id, Long.valueOf(currentUser.getUserId()))
+            assignment = repository.findByAssignmentIdAndMentor_User_UserId(id, Long.valueOf(currentUser.getUserId()))
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy phân công thực tập cho người hướng dẫn"));
         } else if (currentUser.getRole() == Role.STUDENT) {
-            assignment = repository.findByIdAndStudent_UserId(id, Long.valueOf(currentUser.getUserId()))
+            assignment = repository.findByAssignmentIdAndStudent_User_UserId(id, Long.valueOf(currentUser.getUserId()))
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy phân công thực tập cho sinh viên"));
         } else {
             throw new RuntimeException("Không có quyền truy cập");

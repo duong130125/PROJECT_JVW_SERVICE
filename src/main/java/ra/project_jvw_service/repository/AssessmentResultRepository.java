@@ -11,9 +11,9 @@ public interface AssessmentResultRepository extends JpaRepository<AssessmentResu
 
     List<AssessmentResult> findAllByAssignment_AssignmentId(Long assignmentId);
 
-    List<AssessmentResult> findAllByAssignment_Mentor_UserId(Long mentorUserId);
+    List<AssessmentResult> findAllByAssignment_Mentor_User_UserId(Long userId);
 
-    List<AssessmentResult> findAllByAssignment_Student_UserId(Long studentUserId);
+    List<AssessmentResult> findAllByAssignment_Student_User_UserId(Long studentUserId);
 
     List<AssessmentResult> findAllByEvaluatedBy_UserId(Long userId);
 }

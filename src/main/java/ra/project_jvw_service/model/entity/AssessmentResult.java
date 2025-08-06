@@ -45,7 +45,7 @@ public class AssessmentResult {
     private String comments;
 
     @ManyToOne
-    @JoinColumn(name = "EvaluatedBy", nullable = false)
+    @JoinColumn(name = "EvaluatedBy", referencedColumnName = "UserID", nullable = false)
     private User evaluatedBy;
 
     @Column(name = "EvaluationDate", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")

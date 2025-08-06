@@ -35,11 +35,11 @@ public class AssessmentResultServiceImpl implements AssessmentResultService {
                 break;
 
             case MENTOR:
-                results = resultRepo.findAllByAssignment_Mentor_UserId(Long.valueOf(currentUser.getUserId()));
+                results = resultRepo.findAllByAssignment_Mentor_User_UserId(Long.valueOf(currentUser.getUserId()));
                 break;
 
             case STUDENT:
-                results = resultRepo.findAllByAssignment_Student_UserId(Long.valueOf(currentUser.getUserId()));
+                results = resultRepo.findAllByAssignment_Student_User_UserId(Long.valueOf(currentUser.getUserId()));
                 break;
 
             default:
@@ -83,9 +83,6 @@ public class AssessmentResultServiceImpl implements AssessmentResultService {
                 .score(request.getScore())
                 .comments(request.getComments())
                 .evaluatedBy(currentUser)
-                .evaluationDate(LocalDateTime.now())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
                 .build();
 
         return toDTO(resultRepo.save(result));

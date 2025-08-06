@@ -12,5 +12,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findAllAssignedToMentor(@Param("mentorId") Integer mentorId);
 
     boolean existsByStudentCode(String studentCode);
-    boolean existsByUserId(Integer userId);
+
+    boolean existsByUser_UserId(Integer userId);
 }
