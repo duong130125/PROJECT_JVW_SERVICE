@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 @Data
 public class InternshipPhaseRequest {
+    @NotNull(message = "ID của giai đoạn không được để trống")
     private Integer phaseId;
     @NotBlank(message = "Tên giai đoạn không được để trống")
     private String phaseName;

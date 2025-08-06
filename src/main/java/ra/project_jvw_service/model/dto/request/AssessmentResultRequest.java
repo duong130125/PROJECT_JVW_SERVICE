@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 
 @Data
 public class AssessmentResultRequest {
-    @NotNull
+    @NotNull(message = "Assignment ID không được để trống")
     private Integer assignmentId;
 
-    @NotNull
+    @NotNull(message = "Round ID không được để trống")
     private Integer roundId;
 
-    @NotNull
+    @NotNull(message = "Criterion ID không được để trống")
     private Integer criterionId;
 
     @DecimalMin(value = "0.0")

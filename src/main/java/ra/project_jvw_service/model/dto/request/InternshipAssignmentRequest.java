@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class InternshipAssignmentRequest {
-    @NotNull
+    @NotNull(message = "Student ID không được để trống")
     private Integer studentId;
-    @NotNull
+    @NotNull(message = "Mentor ID không được để trống")
     private Long mentorId;
-    @NotNull
+    @NotNull(message = "Phase ID không được để trống")
     private Long phaseId;
 }

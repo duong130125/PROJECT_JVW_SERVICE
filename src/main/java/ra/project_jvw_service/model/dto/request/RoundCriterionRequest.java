@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 
 @Data
 public class RoundCriterionRequest {
-    @NotNull
+    @NotNull(message = "ID của đợt đánh giá không được để trống")
     private Integer roundId;
 
-    @NotNull
+    @NotNull(message = "ID của tiêu chí không được để trống")
     private Integer criterionId;
 
     @NotNull(message = "Trọng số của tiêu chí trong đợt đánh giá này không được để trống")

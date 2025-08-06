@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 public class AssessmentRoundRequest {
 
-    @NotNull
+    @NotNull(message = "ID của giai đoạn thực tập không được để trống")
     private Integer phaseId;
 
     @NotBlank(message = "Tên đợt đánh giá không được để trống")

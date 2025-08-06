@@ -78,8 +78,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponse updateStudent(Long id, StudentRequest dto, Authentication authentication) {
-        User user = userRepository.findByUsername(authentication.getName()).orElseThrow();
-        Student student = studentRepository.findById(id).orElseThrow();
+        User user = userRepository.findByUsername(authentication.getName())
+            .orElseThrow(() -> new RuntimeException("Người dùng không tồn tại"));
+        Student student = studentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Sinh viên không tồn tại"));
 
         if (user.getRole() == Role.STUDENT && !student.getUser().getUserId().equals(user.getUserId())) {
             throw new RuntimeException("Bạn chỉ được phép cập nhật thông tin của mình");

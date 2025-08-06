@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 
 @Data
 public class EvaluationCriteriaRequest {
-    private Integer criterionId;
     @NotBlank(message = "Tên tiêu chí đánh giá không được để trống")
     private String criterionName;
 
