@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
-        return buildErrorResponse("Validation failed", errors, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse("Xác thực không thành công", errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -37,42 +37,42 @@ public class GlobalExceptionHandler {
         ex.getConstraintViolations().forEach(error ->
                 errors.put(error.getPropertyPath().toString(), error.getMessage())
         );
-        return buildErrorResponse("Validation failed", errors, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse("Xác thực không thành công", errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<APIResponse<Map<String, String>>> handleIllegalArgumentException(IllegalArgumentException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("message", ex.getMessage());
-        return buildErrorResponse("Invalid request", errors, HttpStatus.NOT_FOUND);
+        return buildErrorResponse("Yêu cầu không hợp lệ", errors, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DateTimeParseException.class)
     public ResponseEntity<APIResponse<Map<String, String>>> handleDateTimeParseException(DateTimeParseException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("message", ex.getMessage());
-        return buildErrorResponse("Invalid date format", errors, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse("Định dạng ngày không hợp lệ", errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<APIResponse<Map<String, String>>> handleNoResourceFoundException(NoResourceFoundException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("message", ex.getMessage());
-        return buildErrorResponse("Resource not found", errors, HttpStatus.NOT_FOUND);
+        return buildErrorResponse("Không tìm thấy tài nguyên", errors, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<APIResponse<Map<String, String>>> handleBadRequestException(BadRequestException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("message", ex.getMessage());
-        return buildErrorResponse("Bad request", errors, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse("Yêu cầu xấu", errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
     public ResponseEntity<APIResponse<Map<String, String>>> handleNotFoundException(ChangeSetPersister.NotFoundException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("message", ex.getMessage());
-        return buildErrorResponse("Not Found", errors, HttpStatus.NOT_FOUND);
+        return buildErrorResponse("Không tìm thấy", errors, HttpStatus.NOT_FOUND);
     }
 
     // ✅ Dùng APIResponse chuẩn hoá
