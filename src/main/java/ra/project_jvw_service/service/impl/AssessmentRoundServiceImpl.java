@@ -45,7 +45,7 @@ public class AssessmentRoundServiceImpl implements AssessmentRoundService {
                 .endDate(dto.getEndDate())
                 .description(dto.getDescription())
                 .isActive(true)
-                .phase(internshipPhaseRepository.findById(dto.getPhaseId())
+                .phase(internshipPhaseRepository.findById(Long.valueOf(dto.getPhaseId()))
                         .orElseThrow(() -> new RuntimeException("Không tìm thấy giai đoạn thực tập với ID: " + dto.getPhaseId())))
                 .build();
 
@@ -60,7 +60,7 @@ public class AssessmentRoundServiceImpl implements AssessmentRoundService {
         AssessmentRound assessmentRound = assessmentRoundRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy vòng đánh giá với ID: " + id));
 
-        InternshipPhase phase = internshipPhaseRepository.findById(dto.getPhaseId()).orElseThrow(
+        InternshipPhase phase = internshipPhaseRepository.findById(Long.valueOf(dto.getPhaseId())).orElseThrow(
                 () -> new RuntimeException("Không tìm thấy giai đoạn thực tập với ID: " + dto.getPhaseId())
         );
         assessmentRound.setPhase(phase);
